@@ -5,9 +5,9 @@ function App() {
   return (
     <div>
       <h1>My todos</h1>
-      <Todo />
-      <Todo />
-      <Todo />
+      <Todo text = 'nasif'/>
+      <Todo text = 'ahmed'/>
+      <Todo text = 'oney'/>
     </div>
   );
 }
