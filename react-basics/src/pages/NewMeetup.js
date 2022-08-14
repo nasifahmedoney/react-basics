@@ -1,7 +1,8 @@
 import NewMeetupForm from "../components/meetups/NewMeetupForm";
+import {useNavigate} from 'react-router-dom';
 
 function NewMeetupPage(){
-
+    const history = useNavigate();
     function addMeetUpHandler(meetupData){
         fetch(
             // form data from NewMeetupForm is saved in firebase as table
@@ -13,7 +14,10 @@ function NewMeetupPage(){
                     'Content-Type': 'application/json'
                 }
             }
-        );
+        ).then(()=>{
+            history('/');
+            // '/new-meetup' using this keeps the form data after submit
+        });
     }
 
     return(
