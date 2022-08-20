@@ -6,19 +6,44 @@ import FavoritesContext from '../../store/favorites-context';
 function MeetupItem(props){
     const favoriteCtx = useContext(FavoritesContext);
     const itemIsFavorite = favoriteCtx.itemIsFavorite(props.id);
+    function addTodatabase(items){
+        fetch(
+            'https://react-getting-started-947f3-default-rtdb.firebaseio.com/favorites.json',
+            {
+                method: 'POST',
+                body: JSON.stringify(items),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+    }
+    function removeFromDatabase(deleteitem){
 
+        const url = `https://react-getting-started-947f3-default-rtdb.firebaseio.com/favorites/${deleteitem}`;
+        fetch(
+            url,
+            {
+                method: 'DELETE'
+            }
+        )
+        //console.log(`https://react-getting-started-947f3-default-rtdb.firebaseio.com/favorites/${deleteitem}.json`)
+    }
     function toggleFavoriteStatusHandler(){
         if(itemIsFavorite){
-            favoriteCtx.removeFavorite(props.id)
+            favoriteCtx.removeFavorite(props.id);
+            removeFromDatabase(props.id);
         }
         else{
-            favoriteCtx.addFavorite({
+            const favoriteContents = {
                 id: props.id,
                 title: props.title,
                 description: props.description,
                 image: props.image,
                 address: props.address,                
-            });
+            }
+            addTodatabase(favoriteContents);
+            favoriteCtx.addFavorite(favoriteContents);
         }
     }
     
